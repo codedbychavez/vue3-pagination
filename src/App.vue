@@ -10,7 +10,7 @@ export default {
     return {
       allUsers: users,
       appUsers: [],
-      limit: 3,
+      limit: 1,
       activePage: 0,
     }
   },
@@ -44,7 +44,7 @@ export default {
 <template>
   <div class="container m-4">
     <h1 class="text-2xl text-center">Pagination Demo</h1>
-    <h4 class="text-xl text-center">App Users</h4>
+    <h4 class="text-lg text-center">App Users</h4>
     <div class="border p-2 mb-4">
       <ul>
         <li v-for="user in appUsers" :key="user.id" class=" text-left">
