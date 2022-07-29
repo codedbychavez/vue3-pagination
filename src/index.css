@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  button {
+    @apply border py-1 px-2;
+  }
+
+  .flex-wrapper {
+    @apply flex flex-row justify-evenly;
+  }
+
+  .page-number {
+    @apply py-1 px-2 cursor-pointer;
+  }
+
+  .active {
+    @apply bg-green-200;
+  }
+}
