@@ -1,47 +1,61 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+import users from './data/users'
+
+import Pagination from './components/Pagination.vue'
+export default {
+  components: {
+    Pagination,
+  },
+  data() {
+    return {
+      allUsers: users,
+      appUsers: [],
+      limit: 3,
+      activePage: 0,
+    }
+  },
+  methods: {
+    fetchUsers(start, end) {
+      return this.allUsers.slice(start, end);
+    },
+  },
+  mounted() {
+    this.appUsers = this.fetchUsers(this.startIndex, this.endIndex);
+  },
+  computed: {
+    pageCount() {
+      return this.allUsers.length / this.limit
+    },
+    startIndex() {
+      return this.activePage * this.limit;
+    },
+    endIndex() {
+      return this.startIndex + this.limit
+    },
+  },
+  watch: {
+    activePage() {
+        this.appUsers = this.fetchUsers(this.startIndex, this.endIndex);
+    }
+  }
+}
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container m-4">
+    <h1 class="text-2xl text-center">Pagination Demo</h1>
+    <h4 class="text-xl text-center">App Users</h4>
+    <div class="border p-2 mb-4">
+      <ul>
+        <li v-for="user in appUsers" :key="user.id" class=" text-left">
+          {{ user.firstName }}
+        </li>
+      </ul>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <Pagination 
+    :pageCount="pageCount"
+    :activePage="activePage"
+    @setActivePage="(currentActivePage) => activePage = currentActivePage"
+    />
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
